@@ -5,6 +5,8 @@ var chatPage = document.querySelector('#chat-page');
 var usernameForm = document.querySelector('#usernameForm');
 var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
+var raiseForm = document.querySelector('#raiseForm');
+var raiseInput = document.querySelector('#credit');
 var messaheCheck = "Check";
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
@@ -21,7 +23,7 @@ function connect(event) {
     username = document.querySelector('#name').value.trim();
     
 //  Set client name individually  
-    document.getElementById("playerName").innerHTML = username;
+    document.getElementById("playerName1").innerHTML = username;
     
     if(username) {
         usernamePage.classList.add('hidden');
@@ -72,6 +74,22 @@ function send(event) {
     event.preventDefault();
 }
 
+function raise(event) {
+    var messageContent = raiseInput.value.trim();
+
+    if(messageContent && stompClient) {
+        var chatMessage = {
+            sender: username,
+            content: raiseInput.value,
+            type: 'RAISE'
+        };
+
+        stompClient.send("/app/chat.raise", {}, JSON.stringify(chatMessage));
+        raiseInput.value = '';
+    }
+    event.preventDefault();
+}
+
 function check(event) {
 	var messageContent = messaheCheck;
 
@@ -89,6 +107,7 @@ function check(event) {
 }
 
 
+
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
 
@@ -100,7 +119,20 @@ function onMessageReceived(payload) {
     } else if (message.type === 'LEAVE') {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' left!';
-    } else {
+    }else if(message.type === 'CHECK'){
+    	document.getElementById("status").innerHTML = message.content;
+        
+    }
+    else if(message.type === 'RAISE'){
+    	if (message.sender === document.getElementById("playerName1").innerHTML){
+    	document.getElementById("credit1").innerHTML = message.content;
+    	alert ("azonos");
+    	}
+    	else {
+    	document.getElementById("credit2").innerHTML = message.content;
+    	alert ("masik");
+    	}
+    }else {
         messageElement.classList.add('chat-message');
 
         var avatarElement = document.createElement('i');
@@ -140,3 +172,4 @@ function getAvatarColor(messageSender) {
 usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', send, true)
 checkForm.addEventListener('submit', check, true)
+raiseForm.addEventListener('submit', raise, true)

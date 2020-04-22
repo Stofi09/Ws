@@ -28,5 +28,10 @@ public class HomeController {
 	public ChatMessage cehckMessage(@Payload ChatMessage chatMessage) {
 		return chatMessage;
 	}
+	@MessageMapping("/chat.raise")
+	@SendTo("/topic/public")
+	public ChatMessage raiseMessage(@Payload ChatMessage chatMessage) {
+		return chatMessage;
+	}
 	
 }

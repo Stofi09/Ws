@@ -35,14 +35,21 @@
 		<div class="chat-container">
 			<div class="chat-header">
 				<h2>Poker</h2>
-				<label id="playerName" >Male</label>
+				<label id="playerName1" >Name</label><br>
+				<label>Status:</label>
+				<label id="status" >Status</label><br>
+				<label>My Credit:</label>
+				<label id="credit1" >000</label><br>
+				<label>Ai Credit:</label>
+				<label id="credit2" >000</label>
 			</div>
 			<div class="connecting">Connecting...</div>
 			
 			<ul id="messageArea">
 			
 			</ul>
-			
+			<label id="card1">card1</label>
+			<label id="card2">card2</label>
 			<form id="messageForm" name="messageForm" nameForm="messageForm">
 				<div class="form-group">
 					<div class="input-group clearfix">
@@ -52,13 +59,31 @@
 					</div>
 				</div>
 			</form>
+		
 			<form id="checkForm" name="checkForm" nameForm="checkForm">
-				<div class="form-group">
+				
 					<div class="input-group clearfix">
 						<button type="submit" class="primary">Check</button>
 					</div>
+				
+			</form>
+			<form id="raiseForm" name="raiseForm" nameForm="raiseForm">
+				<div class="form-group">
+					<div class="input-group clearfix">
+						<input type="text" id="credit" placeholder="000"
+							autocomplete="off" class="form-control" />
+						<button type="submit" class="primary">Raise</button>
+					</div>
 				</div>
 			</form>
+			<form id="foldForm" name="foldForm" nameForm="foldForm">
+				<div class="form-group">
+					<div class="input-group clearfix">
+						<button type="submit" class="primary">Fold</button>
+					</div>
+				</div>
+			</form>
+		  
 		</div>
 	</div>
 

@@ -103,6 +103,8 @@ button.primary {
     background-color: #25be38;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
     color: #fff;
+    min-width: 75px;
+    text-align: strech;
 }
 
 button.accent {
@@ -164,7 +166,7 @@ button.accent {
     overflow: auto;
     overflow-y: scroll;
     padding: 0 20px 0px 20px;
-    height: calc(100% - 150px);
+    height: calc(100% - 500px);
 }
 
 #chat-page #messageForm {
@@ -236,6 +238,8 @@ button.accent {
     height: 38px;
     margin-left: 5px;
 }
+
+
 
 .chat-header {
     text-align: center;
