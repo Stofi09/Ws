@@ -75,8 +75,9 @@ function send(event) {
 }
 
 function raise(event) {
+	
     var messageContent = raiseInput.value.trim();
-
+    if (raiseInput.value <= document.getElementById("credit1").innerHTML){
     if(messageContent && stompClient) {
         var chatMessage = {
             sender: username,
@@ -86,6 +87,10 @@ function raise(event) {
 
         stompClient.send("/app/chat.raise", {}, JSON.stringify(chatMessage));
         raiseInput.value = '';
+    }    
+    }
+    else{
+    alert(raiseInput.value +"is bigger than"+ document.getElementById("credit1").innerHTML);
     }
     event.preventDefault();
 }
@@ -126,11 +131,9 @@ function onMessageReceived(payload) {
     else if(message.type === 'RAISE'){
     	if (message.sender === document.getElementById("playerName1").innerHTML){
     	document.getElementById("credit1").innerHTML = message.content;
-    	alert ("azonos");
     	}
     	else {
     	document.getElementById("credit2").innerHTML = message.content;
-    	alert ("masik");
     	}
     }else {
         messageElement.classList.add('chat-message');
