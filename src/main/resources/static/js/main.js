@@ -23,6 +23,9 @@ function connect(event) {
     username = document.querySelector('#name').value.trim();
     
 //  Set client name individually  
+    if (document.getElementById("playerName1").innerHTML === "Name" ){
+    	alert("ures");
+    }
     document.getElementById("playerName1").innerHTML = username;
     
     if(username) {
@@ -119,10 +122,11 @@ function check(event) {
 function onMessageReceived(payload) {
 	
     var message = JSON.parse(payload.body);
-
+    var num = message.playerNo;
     var messageElement = document.createElement('li');
 
     if(message.type === 'JOIN') {
+    	alert(num);
         messageElement.classList.add('event-message');
         message.content = message.sender + ' joined!';
     } else if (message.type === 'LEAVE') {

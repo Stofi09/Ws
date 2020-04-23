@@ -5,6 +5,7 @@ public class ChatMessage {
 	private String content;
 	private String sender;
 	private MessageType type;
+	private int playerNo;
 
 	public enum MessageType {
 		CHAT, LEAVE, JOIN, CHECK, RAISE
@@ -33,4 +34,13 @@ public class ChatMessage {
 	public void setType(MessageType type) {
 		this.type = type;
 	}
+
+	public int getPlayerNo() {
+		return playerNo;
+	}
+
+	public void setPlayerNo(int playerNo) {
+		this.playerNo = playerNo;
+	}
+	
 }

@@ -9,11 +9,13 @@ import com.poker.ws.chatmassage.ChatMessage;
 
 @Controller
 public class HomeController {
+	private static int playerNum = 1;
 
 	@MessageMapping("/chat.register")
 	@SendTo("/topic/public")
 	public ChatMessage register(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
 		headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+		chatMessage.setPlayerNo(incNum());
 		return chatMessage;
 	}
 
@@ -32,6 +34,9 @@ public class HomeController {
 	@SendTo("/topic/public")
 	public ChatMessage raiseMessage(@Payload ChatMessage chatMessage) {
 		return chatMessage;
+	}
+	public int incNum() {
+		return  playerNum++;
 	}
 	
 }
