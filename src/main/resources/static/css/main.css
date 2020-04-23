@@ -104,6 +104,12 @@ button.default {
     color: #333;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
 }
+/* h2.a { */
+/*   visibility: hidden; */
+/* } */
+/* h2.b { */
+/*   visibility: visible; */
+/* } */
 
 button.primary {
     background-color: #25be38;

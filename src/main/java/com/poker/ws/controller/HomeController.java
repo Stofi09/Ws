@@ -18,6 +18,15 @@ public class HomeController {
 		chatMessage.setPlayerNo(incNum());
 		return chatMessage;
 	}
+	
+	@MessageMapping("/chat.start")
+	@SendTo("/topic/public")
+	public ChatMessage startMessage(@Payload ChatMessage chatMessage) {
+		chatMessage.setCard1(1);
+		chatMessage.setCard2(2);
+		chatMessage.setCard3(3);
+		return chatMessage;
+	}
 
 	@MessageMapping("/chat.send")
 	@SendTo("/topic/public")
@@ -35,6 +44,7 @@ public class HomeController {
 	public ChatMessage raiseMessage(@Payload ChatMessage chatMessage) {
 		return chatMessage;
 	}
+	//Increment the number of players.
 	public int incNum() {
 		return  playerNum++;
 	}

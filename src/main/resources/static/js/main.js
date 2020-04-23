@@ -7,7 +7,9 @@ var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
 var raiseForm = document.querySelector('#raiseForm');
 var raiseInput = document.querySelector('#credit');
+var startForm = document.querySelector('#startForm');
 var messaheCheck = "Check";
+var messageStart = "Start";
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 var inc = 0;
@@ -23,9 +25,7 @@ function connect(event) {
     username = document.querySelector('#name').value.trim();
     
 //  Set client name individually  
-    if (document.getElementById("playerName1").innerHTML === "Name" ){
-    	alert("ures");
-    }
+
     document.getElementById("playerName1").innerHTML = username;
     
     if(username) {
@@ -60,7 +60,24 @@ function onError(error) {
     connectingElement.style.color = 'red';
 }
 
+function start(event) {
+	
+    var messageContent = messageStart;
 
+   
+    if(messageContent && stompClient) {
+        var chatMessage = {
+            sender: username,
+            content: messageStart,
+            type: 'START'
+        };
+
+        stompClient.send("/app/chat.start", {}, JSON.stringify(chatMessage));
+           
+    }
+    
+    event.preventDefault();
+}
 function send(event) {
     var messageContent = messageInput.value.trim();
 
@@ -123,20 +140,55 @@ function onMessageReceived(payload) {
 	
     var message = JSON.parse(payload.body);
     var num = message.playerNo;
+    
     var messageElement = document.createElement('li');
 
     if(message.type === 'JOIN') {
-    	alert(num);
+    	if (message.sender === document.getElementById("playerName1").innerHTML){    		
+    		document.getElementById("start").disabled = true;
+    		}
+    	else{
+    		
+    		document.getElementById("start").disabled = false;    		
+    		}
+    	document.getElementById("check").disabled = true;
+		document.getElementById("fold").disabled = true;
+		document.getElementById("raise").disabled = true;
+		
         messageElement.classList.add('event-message');
         message.content = message.sender + ' joined!';
     } else if (message.type === 'LEAVE') {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' left!';
+    }else if(message.type === 'START'){
+    	var card1 = message.card1;
+    	var card2 = message.card2;
+    	var card3 = message.card3;
+    	document.getElementById("card1").innerHTML = card1;
+    	document.getElementById("card2").innerHTML = card2;
+    	document.getElementById("card3").innerHTML = card3;
+if (message.sender === document.getElementById("playerName1").innerHTML){
+    		
+    		document.getElementById("check").disabled = false;
+    		document.getElementById("fold").disabled = false;
+    		document.getElementById("raise").disabled = false;
+    		}
+    	else{
+    		
+    		document.getElementById("check").disabled = true;
+    		document.getElementById("fold").disabled = true;
+    		document.getElementById("raise").disabled = true;
+    		
+    		}
+			document.getElementById("start").disabled = true;
+			document.getElementById("card1").disabled = true;
+			
     }else if(message.type === 'CHECK'){
-    	
+    	document.getElementById("p2").style.visibility = "hidden";
+
     	document.getElementById("status").innerHTML = message.content;
     	if (message.sender === document.getElementById("playerName1").innerHTML){
-    		incTurn();
+    		
     		document.getElementById("check").disabled = true;
     		document.getElementById("fold").disabled = true;
     		document.getElementById("raise").disabled = true;
@@ -153,7 +205,6 @@ function onMessageReceived(payload) {
     	
     	document.getElementById("status").innerHTML = message.type;
     	if (message.sender === document.getElementById("playerName1").innerHTML){
-    		 incTurn();
     		 document.getElementById("credit1").innerHTML = document.getElementById("credit1").innerHTML - message.content;
     		 document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
     		 document.getElementById("check").disabled = true;
@@ -194,9 +245,9 @@ function onMessageReceived(payload) {
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
 }
-function incTurn() {
-	  document.getElementById("turn").innerHTML = +document.getElementById("turn").innerHTML + +1;
-	}
+//function incTurn() {
+//	  document.getElementById("turn").innerHTML = +document.getElementById("turn").innerHTML + +1;
+//	}
 
 function getAvatarColor(messageSender) {
     var hash = 0;
@@ -212,3 +263,4 @@ usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', send, true)
 checkForm.addEventListener('submit', check, true)
 raiseForm.addEventListener('submit', raise, true)
+startForm.addEventListener('submit', start, true)
