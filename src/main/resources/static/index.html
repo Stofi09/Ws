@@ -35,6 +35,7 @@
 		<div class="chat-container">
 			<div class="chat-header">
 				<h2>Poker</h2>
+				<label>Name:  </label>
 				<label id="playerName1" >Name</label><br>
 				<label>Status:</label>
 				<label id="status" >Status</label><br>
@@ -44,6 +45,8 @@
 				<label id="credit2" >500</label>
 				<label>Board Credit:</label>
 				<label id="boardCredit" >0</label>
+				<label type="number" id="turn" value="0" ></label>
+				
 				
 			</div>
 			<div class="connecting">Connecting...</div>
@@ -66,7 +69,7 @@
 			<form id="checkForm" name="checkForm" nameForm="checkForm">
 				
 					<div class="input-group clearfix">
-						<button type="submit" class="primary">Check</button>
+						<button id="check" type="submit" class="primary">Check</button>
 					</div>
 				
 			</form>
@@ -75,14 +78,14 @@
 					<div class="input-group clearfix">
 						<input type="text" id="credit" placeholder="000"
 							autocomplete="off" class="form-control" />
-						<button type="submit" class="primary">Raise</button>
+						<button id="raise" type="submit" class="primary">Raise</button>
 					</div>
 				</div>
 			</form>
 			<form id="foldForm" name="foldForm" nameForm="foldForm">
 				<div class="form-group">
 					<div class="input-group clearfix">
-						<button type="submit" class="primary">Fold</button>
+						<button id="fold" type="submit" class="primary">Fold</button>
 					</div>
 				</div>
 			</form>

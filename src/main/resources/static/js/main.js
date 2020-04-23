@@ -10,7 +10,7 @@ var raiseInput = document.querySelector('#credit');
 var messaheCheck = "Check";
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
-
+var inc = 0;
 var stompClient = null;
 var username = null;
 
@@ -117,6 +117,7 @@ function check(event) {
 
 
 function onMessageReceived(payload) {
+	
     var message = JSON.parse(payload.body);
 
     var messageElement = document.createElement('li');
@@ -128,17 +129,41 @@ function onMessageReceived(payload) {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' left!';
     }else if(message.type === 'CHECK'){
+    	
     	document.getElementById("status").innerHTML = message.content;
-        
-    }
-    else if(message.type === 'RAISE'){
     	if (message.sender === document.getElementById("playerName1").innerHTML){
+    		incTurn();
+    		document.getElementById("check").disabled = true;
+    		document.getElementById("fold").disabled = true;
+    		document.getElementById("raise").disabled = true;
+    		}
+    	else{
+    		
+    		document.getElementById("check").disabled = false;
+    		document.getElementById("fold").disabled = false;
+    		document.getElementById("raise").disabled = false;
+    		
+    		}
+    	}
+    else if(message.type === 'RAISE'){
+    	
+    	document.getElementById("status").innerHTML = message.type;
+    	if (message.sender === document.getElementById("playerName1").innerHTML){
+    		 incTurn();
     		 document.getElementById("credit1").innerHTML = document.getElementById("credit1").innerHTML - message.content;
     		 document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
+    		 document.getElementById("check").disabled = true;
+     		 document.getElementById("fold").disabled = true;
+     		 document.getElementById("raise").disabled = true;
     	}
     	else {
+    		
     		document.getElementById("credit2").innerHTML = document.getElementById("credit2").innerHTML - message.content;
-    	document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
+    		document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
+    		document.getElementById("check").disabled = false;
+    		document.getElementById("fold").disabled = false;
+    		document.getElementById("raise").disabled = false;
+    		
     	}
     }else {
         messageElement.classList.add('chat-message');
@@ -165,7 +190,9 @@ function onMessageReceived(payload) {
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
 }
-
+function incTurn() {
+	  document.getElementById("turn").innerHTML = +document.getElementById("turn").innerHTML + +1;
+	}
 
 function getAvatarColor(messageSender) {
     var hash = 0;
