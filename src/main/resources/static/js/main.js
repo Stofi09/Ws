@@ -77,7 +77,10 @@ function send(event) {
 function raise(event) {
 	
     var messageContent = raiseInput.value.trim();
-    if (raiseInput.value <= document.getElementById("credit1").innerHTML){
+    var x = document.getElementById("credit1").innerHTML
+
+    if (+raiseInput.value <= +x){
+   
     if(messageContent && stompClient) {
         var chatMessage = {
             sender: username,
@@ -130,10 +133,12 @@ function onMessageReceived(payload) {
     }
     else if(message.type === 'RAISE'){
     	if (message.sender === document.getElementById("playerName1").innerHTML){
-    	document.getElementById("credit1").innerHTML = message.content;
+    		 document.getElementById("credit1").innerHTML = document.getElementById("credit1").innerHTML - message.content;
+    		 document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
     	}
     	else {
-    	document.getElementById("credit2").innerHTML = message.content;
+    		document.getElementById("credit2").innerHTML = document.getElementById("credit2").innerHTML - message.content;
+    	document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
     	}
     }else {
         messageElement.classList.add('chat-message');
