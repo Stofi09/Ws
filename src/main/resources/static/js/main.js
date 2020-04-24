@@ -167,6 +167,11 @@ function onMessageReceived(payload) {
     	document.getElementById("card1").innerHTML = card1;
     	document.getElementById("card2").innerHTML = card2;
     	document.getElementById("card3").innerHTML = card3;
+    	
+    	document.getElementById("card1").style.visibility = "hidden";
+    	document.getElementById("card2").style.visibility = "hidden";
+    	document.getElementById("card3").style.visibility = "hidden";
+    	
 if (message.sender === document.getElementById("playerName1").innerHTML){
     		
     		document.getElementById("check").disabled = false;
@@ -184,7 +189,9 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
 			document.getElementById("card1").disabled = true;
 			
     }else if(message.type === 'CHECK'){
-    	document.getElementById("p2").style.visibility = "hidden";
+    	document.getElementById("card1").style.visibility = "visible";
+    	document.getElementById("card2").style.visibility = "visible";
+    	document.getElementById("card3").style.visibility = "visible";
 
     	document.getElementById("status").innerHTML = message.content;
     	if (message.sender === document.getElementById("playerName1").innerHTML){
