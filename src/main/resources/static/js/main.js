@@ -166,19 +166,36 @@ function onMessageReceived(payload) {
     	var card3 = message.card3;
     	var card4 = message.card4;
     	var card5 = message.card5;
+    	var card6 = message.card6;
+    	var card7 = message.card7;
+    	var card8 = message.card8;
+    	var card9 = message.card9;
     	
-    	document.getElementById("card1").innerHTML = card1;
-    	document.getElementById("card2").innerHTML = card2;
-    	document.getElementById("card3").innerHTML = card3;
-    	document.getElementById("card4").innerHTML = card4;
-    	document.getElementById("card5").innerHTML = card5;
+    	document.getElementById('card1').src= card1;
+    	document.getElementById('card2').src= card2;
+    	document.getElementById('card3').src= card3;
+    	document.getElementById('card4').src= card4;
+    	document.getElementById('card5').src= card5;
+    	document.getElementById('card6').src= card6;
+    	document.getElementById('card7').src= card7;
+    	document.getElementById('card8').src= card8;
+    	document.getElementById('card9').src= card9;
+    	
+    	if (message.sender === document.getElementById("playerName1").innerHTML){
+    		document.getElementById("card3").style.visibility = "hidden";
+        	document.getElementById("card4").style.visibility = "hidden";
+    	}
+    	else{
+    		document.getElementById("card1").style.visibility = "hidden";
+        	document.getElementById("card2").style.visibility = "hidden";
+    	}
     	
     	
-    	document.getElementById("card1").style.visibility = "hidden";
-    	document.getElementById("card2").style.visibility = "hidden";
-    	document.getElementById("card3").style.visibility = "hidden";
-    	document.getElementById("card4").style.visibility = "hidden";
     	document.getElementById("card5").style.visibility = "hidden";
+    	document.getElementById("card6").style.visibility = "hidden";
+    	document.getElementById("card7").style.visibility = "hidden";
+    	document.getElementById("card8").style.visibility = "hidden";
+    	document.getElementById("card9").style.visibility = "hidden";
     	
 if (message.sender === document.getElementById("playerName1").innerHTML){
     		
@@ -214,13 +231,13 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     		}
     	
     	if (+turn === 2){
-    		document.getElementById("card1").style.visibility = "visible";
-        	document.getElementById("card2").style.visibility = "visible";
-        	document.getElementById("card3").style.visibility = "visible";
-    	}else if(+turn ===4){
-    		document.getElementById("card4").style.visibility = "visible";
-    	}else if(+turn ===6){
     		document.getElementById("card5").style.visibility = "visible";
+        	document.getElementById("card6").style.visibility = "visible";
+        	document.getElementById("card7").style.visibility = "visible";
+    	}else if(+turn ===4){
+    		document.getElementById("card8").style.visibility = "visible";
+    	}else if(+turn ===6){
+    		document.getElementById("card9").style.visibility = "visible";
     	}
     	
     	
@@ -246,13 +263,13 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     	}
     	
     	if (+turn === 2){
-    		document.getElementById("card1").style.visibility = "visible";
-        	document.getElementById("card2").style.visibility = "visible";
-        	document.getElementById("card3").style.visibility = "visible";
-    	}else if(+turn ===4){
-    		document.getElementById("card4").style.visibility = "visible";
-    	}else if(+turn ===6){
     		document.getElementById("card5").style.visibility = "visible";
+        	document.getElementById("card6").style.visibility = "visible";
+        	document.getElementById("card7").style.visibility = "visible";
+    	}else if(+turn ===4){
+    		document.getElementById("card8").style.visibility = "visible";
+    	}else if(+turn ===6){
+    		document.getElementById("card9").style.visibility = "visible";
     	}
     	
     }else {
