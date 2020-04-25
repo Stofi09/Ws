@@ -9,6 +9,17 @@ public class ChatMessage {
 	private int card1;
 	private int card2;
 	private int card3;
+	private int card4;
+	private int card5;
+	private int turn;
+
+	public int getTurn() {
+		return turn;
+	}
+
+	public void setTurn(int turn) {
+		this.turn = turn;
+	}
 
 	public enum MessageType {
 		CHAT, LEAVE, JOIN, CHECK, RAISE, START
@@ -69,6 +80,24 @@ public class ChatMessage {
 	public void setCard3(int card3) {
 		this.card3 = card3;
 	}
+
+	public int getCard4() {
+		return card4;
+	}
+
+	public void setCard4(int card4) {
+		this.card4 = card4;
+	}
+
+	public int getCard5() {
+		return card5;
+	}
+
+	public void setCard5(int card5) {
+		this.card5 = card5;
+	}
+
+	
 	
 	
 }

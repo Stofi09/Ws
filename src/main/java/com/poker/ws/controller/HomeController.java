@@ -10,6 +10,7 @@ import com.poker.ws.chatmassage.ChatMessage;
 @Controller
 public class HomeController {
 	private static int playerNum = 1;
+	private static int turn;
 
 	@MessageMapping("/chat.register")
 	@SendTo("/topic/public")
@@ -25,6 +26,8 @@ public class HomeController {
 		chatMessage.setCard1(1);
 		chatMessage.setCard2(2);
 		chatMessage.setCard3(3);
+		chatMessage.setCard4(4);
+		chatMessage.setCard5(5);
 		return chatMessage;
 	}
 
@@ -37,16 +40,22 @@ public class HomeController {
 	@MessageMapping("/chat.check")
 	@SendTo("/topic/public")
 	public ChatMessage cehckMessage(@Payload ChatMessage chatMessage) {
+		turn++;
+		chatMessage.setTurn(turn);
 		return chatMessage;
 	}
 	@MessageMapping("/chat.raise")
 	@SendTo("/topic/public")
 	public ChatMessage raiseMessage(@Payload ChatMessage chatMessage) {
+		turn++;
+		chatMessage.setTurn(turn);
 		return chatMessage;
 	}
 	//Increment the number of players.
 	public int incNum() {
 		return  playerNum++;
 	}
-	
+	public int getTurn() {
+		return turn;
+	}
 }

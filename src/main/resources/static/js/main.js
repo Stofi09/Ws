@@ -164,13 +164,21 @@ function onMessageReceived(payload) {
     	var card1 = message.card1;
     	var card2 = message.card2;
     	var card3 = message.card3;
+    	var card4 = message.card4;
+    	var card5 = message.card5;
+    	
     	document.getElementById("card1").innerHTML = card1;
     	document.getElementById("card2").innerHTML = card2;
     	document.getElementById("card3").innerHTML = card3;
+    	document.getElementById("card4").innerHTML = card4;
+    	document.getElementById("card5").innerHTML = card5;
+    	
     	
     	document.getElementById("card1").style.visibility = "hidden";
     	document.getElementById("card2").style.visibility = "hidden";
     	document.getElementById("card3").style.visibility = "hidden";
+    	document.getElementById("card4").style.visibility = "hidden";
+    	document.getElementById("card5").style.visibility = "hidden";
     	
 if (message.sender === document.getElementById("playerName1").innerHTML){
     		
@@ -189,10 +197,7 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
 			document.getElementById("card1").disabled = true;
 			
     }else if(message.type === 'CHECK'){
-    	document.getElementById("card1").style.visibility = "visible";
-    	document.getElementById("card2").style.visibility = "visible";
-    	document.getElementById("card3").style.visibility = "visible";
-
+    	var turn = message.turn;
     	document.getElementById("status").innerHTML = message.content;
     	if (message.sender === document.getElementById("playerName1").innerHTML){
     		
@@ -207,9 +212,21 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     		document.getElementById("raise").disabled = false;
     		
     		}
+    	
+    	if (+turn === 2){
+    		document.getElementById("card1").style.visibility = "visible";
+        	document.getElementById("card2").style.visibility = "visible";
+        	document.getElementById("card3").style.visibility = "visible";
+    	}else if(+turn ===4){
+    		document.getElementById("card4").style.visibility = "visible";
+    	}else if(+turn ===6){
+    		document.getElementById("card5").style.visibility = "visible";
+    	}
+    	
+    	
     	}
     else if(message.type === 'RAISE'){
-    	
+    	var turn = message.turn;
     	document.getElementById("status").innerHTML = message.type;
     	if (message.sender === document.getElementById("playerName1").innerHTML){
     		 document.getElementById("credit1").innerHTML = document.getElementById("credit1").innerHTML - message.content;
@@ -227,6 +244,17 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     		document.getElementById("raise").disabled = false;
     		
     	}
+    	
+    	if (+turn === 2){
+    		document.getElementById("card1").style.visibility = "visible";
+        	document.getElementById("card2").style.visibility = "visible";
+        	document.getElementById("card3").style.visibility = "visible";
+    	}else if(+turn ===4){
+    		document.getElementById("card4").style.visibility = "visible";
+    	}else if(+turn ===6){
+    		document.getElementById("card5").style.visibility = "visible";
+    	}
+    	
     }else {
         messageElement.classList.add('chat-message');
 
