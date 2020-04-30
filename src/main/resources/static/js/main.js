@@ -135,7 +135,7 @@ function check(event) {
 }
 
 
-
+// when turn 8 reset the game, fold will set turn to 8.
 function onMessageReceived(payload) {
 	
     var message = JSON.parse(payload.body);
@@ -170,7 +170,7 @@ function onMessageReceived(payload) {
     	var card7 = message.card7;
     	var card8 = message.card8;
     	var card9 = message.card9;
-    	
+    	alert("lefut");
     	document.getElementById('card1').src= card1;
     	document.getElementById('card2').src= card2;
     	document.getElementById('card3').src= card3;
@@ -184,10 +184,14 @@ function onMessageReceived(payload) {
     	if (message.sender === document.getElementById("playerName1").innerHTML){
     		document.getElementById("card3").style.visibility = "hidden";
         	document.getElementById("card4").style.visibility = "hidden";
+        	document.getElementById("card1").style.visibility = "visible";
+        	document.getElementById("card2").style.visibility = "visible";
     	}
     	else{
     		document.getElementById("card1").style.visibility = "hidden";
         	document.getElementById("card2").style.visibility = "hidden";
+        	document.getElementById("card3").style.visibility = "visible";
+        	document.getElementById("card4").style.visibility = "visible";
     	}
     	
     	
@@ -215,6 +219,7 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
 			
     }else if(message.type === 'CHECK'){
     	var turn = message.turn;
+    	alert(turn);
     	document.getElementById("status").innerHTML = message.content;
     	if (message.sender === document.getElementById("playerName1").innerHTML){
     		
@@ -231,6 +236,7 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     		}
     	
     	if (+turn === 2){
+    		document.getElementById("start").disabled = false; 
     		document.getElementById("card5").style.visibility = "visible";
         	document.getElementById("card6").style.visibility = "visible";
         	document.getElementById("card7").style.visibility = "visible";
@@ -239,11 +245,16 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     	}else if(+turn ===6){
     		document.getElementById("card9").style.visibility = "visible";
     	}
+//    	else if(+turn ===2){
+//    		document.getElementById("start").disabled = false; 
+//    	}
+//    	
     	
     	
     	}
     else if(message.type === 'RAISE'){
     	var turn = message.turn;
+    	alert(turn);
     	document.getElementById("status").innerHTML = message.type;
     	if (message.sender === document.getElementById("playerName1").innerHTML){
     		 document.getElementById("credit1").innerHTML = document.getElementById("credit1").innerHTML - message.content;
