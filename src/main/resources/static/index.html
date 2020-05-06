@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-<title>Title</title>
+<title>Texas</title>
 <link rel="stylesheet" href="/css/main.css" />
 </head>
 <body background="18.jpg"
@@ -23,7 +23,7 @@
 				</div>
 				<div class="form-group">
 					<button type="submit" class="accent username-submit">Start
-						Chatting</button>
+						Playing</button>
 				</div>
 			</form>
 		</div>
@@ -51,20 +51,18 @@
 			</div>
 			<div class="connecting">Connecting...</div>
 			
-			<ul id="messageArea">
 			
-			</ul>
-			
-			<img id=card1  src="default.png" alt="Paris" style="width:50px">
-			<img id=card2  src="default.png" alt="Paris" style="width:50px">
-			<img id=card3  src="default.png" alt="Paris" style="width:50px">
-			<img id=card4  src="default.png" alt="Paris" style="width:50px">
-			<img id=card5  src="default.png" alt="Paris" style="width:50px">
-			<img id=card6  src="default.png" alt="Paris" style="width:50px">
-			<img id=card7  src="default.png" alt="Paris" style="width:50px">
-			<img id=card8  src="default.png" alt="Paris" style="width:50px">
-			<img id=card9  src="default.png" alt="Paris" style="width:50px">
-			
+			<div class="cards">
+			<img id=card1  src="default.png" alt="Paris" >
+			<img id=card2  src="default.png" alt="Paris" >
+			<img id=card3  src="default.png" alt="Paris" >
+			<img id=card4  src="default.png" alt="Paris" >
+			<img id=card5  src="default.png" alt="Paris" >
+			<img id=card6  src="default.png" alt="Paris" >
+			<img id=card7  src="default.png" alt="Paris" >
+			<img id=card8  src="default.png" alt="Paris" >
+			<img id=card9  src="default.png" alt="Paris" >
+			</div>
 			<form id="messageForm" name="messageForm" nameForm="messageForm">
 				<div class="form-group">
 					<div class="input-group clearfix">
@@ -73,14 +71,6 @@
 						<button type="submit" class="primary">Send</button>
 					</div>
 				</div>
-			</form>
-		
-			<form id="checkForm" name="checkForm" nameForm="checkForm">
-				
-					<div class="input-group clearfix">
-						<button id="check" type="submit" class="primary">Check</button>
-					</div>
-				
 			</form>
 			<form id="raiseForm" name="raiseForm" nameForm="raiseForm">
 				<div class="form-group">
@@ -91,6 +81,16 @@
 					</div>
 				</div>
 			</form>
+		<div class= "buttons">
+			<form id="checkForm" name="checkForm" nameForm="checkForm">
+				
+					<div class="input-group clearfix">
+						<button id="check" type="submit" class="primary">Check</button>
+					</div>
+				
+			</form>
+		 </div>	
+		 <div class= "buttons">
 			<form id="foldForm" name="foldForm" nameForm="foldForm">
 				<div class="form-group">
 					<div class="input-group clearfix">
@@ -98,6 +98,8 @@
 					</div>
 				</div>
 			</form>
+		</div>	
+		<div class= "buttons">	
 			<form id="startForm" name="startForm" nameForm="startForm">
 				<div class="form-group">
 					<div class="input-group clearfix">
@@ -105,7 +107,11 @@
 					</div>
 				</div>
 			</form>
-		  
+		  </div>
+		  <div class="clr"></div>
+		  <ul id="messageArea">
+			
+			</ul>
 		</div>
 	</div>
 
