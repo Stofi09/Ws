@@ -248,6 +248,7 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     		document.getElementById("start").disabled = false; 
     		document.getElementById("raise").disabled = true; 
     		document.getElementById("check").disabled = true; 
+    		document.getElementById("fold").disabled = true; 
     	}
     	
     	
@@ -286,6 +287,7 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     		document.getElementById("start").disabled = false; 
     		document.getElementById("raise").disabled = true; 
     		document.getElementById("check").disabled = true; 
+    		document.getElementById("fold").disabled = true; 
     	}
     	
     }else {
