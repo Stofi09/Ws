@@ -15,6 +15,7 @@ var connectingElement = document.querySelector('.connecting');
 var inc = 0;
 var stompClient = null;
 var username = null;
+var oppRaise = 0;
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -99,7 +100,7 @@ function raise(event) {
     var messageContent = raiseInput.value.trim();
     var x = document.getElementById("credit1").innerHTML
 
-    if (+raiseInput.value <= +x){
+    if (messageContent <= +x){
    
     if(messageContent && stompClient) {
         var chatMessage = {
@@ -154,6 +155,7 @@ function onMessageReceived(payload) {
     	document.getElementById("check").disabled = true;
 		document.getElementById("fold").disabled = true;
 		document.getElementById("raise").disabled = true;
+		document.getElementById("credit").disabled = true;
 		
         messageElement.classList.add('event-message');
         message.content = message.sender + ' joined!';
@@ -206,16 +208,19 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     		document.getElementById("check").disabled = false;
     		document.getElementById("fold").disabled = false;
     		document.getElementById("raise").disabled = false;
+    		document.getElementById("credit").disabled = false;
+    		
     		}
     	else{
     		
     		document.getElementById("check").disabled = true;
     		document.getElementById("fold").disabled = true;
     		document.getElementById("raise").disabled = true;
+    		document.getElementById("credit").disabled = true;
     		
     		}
 			document.getElementById("start").disabled = true;
-			document.getElementById("card1").disabled = true;
+		
 			
     }else if(message.type === 'CHECK'){
     	var turn = message.turn;
@@ -226,12 +231,14 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     		document.getElementById("check").disabled = true;
     		document.getElementById("fold").disabled = true;
     		document.getElementById("raise").disabled = true;
+    		document.getElementById("credit").disabled = true;
     		}
     	else{
     		
     		document.getElementById("check").disabled = false;
     		document.getElementById("fold").disabled = false;
     		document.getElementById("raise").disabled = false;
+    		document.getElementById("credit").disabled = false;
     		
     		}
     	
@@ -249,6 +256,7 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     		document.getElementById("raise").disabled = true; 
     		document.getElementById("check").disabled = true; 
     		document.getElementById("fold").disabled = true; 
+    		document.getElementById("credit").disabled = true;
     	}
     	
     	
@@ -258,20 +266,25 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     	var turn = message.turn;
     	
     	document.getElementById("status").innerHTML = message.type;
+    	// true when the sender and receiver are the same Client
     	if (message.sender === document.getElementById("playerName1").innerHTML){
     		 document.getElementById("credit1").innerHTML = document.getElementById("credit1").innerHTML - message.content;
     		 document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
     		 document.getElementById("check").disabled = true;
      		 document.getElementById("fold").disabled = true;
      		 document.getElementById("raise").disabled = true;
+     		document.getElementById("credit").disabled = true;
     	}
     	else {
-    		
+    		//Receiver
     		document.getElementById("credit2").innerHTML = document.getElementById("credit2").innerHTML - message.content;
+    		oppRaise = message.content;
+    		//alert(oppRaise);
     		document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
     		document.getElementById("check").disabled = false;
     		document.getElementById("fold").disabled = false;
     		document.getElementById("raise").disabled = false;
+    		document.getElementById("credit").disabled = false;
     		
     	}
     	
@@ -288,6 +301,7 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     		document.getElementById("raise").disabled = true; 
     		document.getElementById("check").disabled = true; 
     		document.getElementById("fold").disabled = true; 
+    		document.getElementById("credit").disabled = true;
     	}
     	
     }else {
