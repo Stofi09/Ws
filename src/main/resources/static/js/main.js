@@ -219,7 +219,7 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
 			
     }else if(message.type === 'CHECK'){
     	var turn = message.turn;
-    	
+    	console.log(turn);
     	document.getElementById("status").innerHTML = message.content;
     	if (message.sender === document.getElementById("playerName1").innerHTML){
     		
@@ -246,6 +246,8 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     	}
     	else if(+turn ===8){
     		document.getElementById("start").disabled = false; 
+    		document.getElementById("raise").disabled = true; 
+    		document.getElementById("check").disabled = true; 
     	}
     	
     	
@@ -282,6 +284,8 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     		document.getElementById("card9").style.visibility = "visible";
     	}else if(+turn ===8){
     		document.getElementById("start").disabled = false; 
+    		document.getElementById("raise").disabled = true; 
+    		document.getElementById("check").disabled = true; 
     	}
     	
     }else {
