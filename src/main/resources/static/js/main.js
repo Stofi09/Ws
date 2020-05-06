@@ -16,6 +16,8 @@ var inc = 0;
 var stompClient = null;
 var username = null;
 var oppRaise = 0;
+var boolOppRaise = true;
+var needToRaise = false;
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -99,9 +101,23 @@ function raise(event) {
 	
     var messageContent = raiseInput.value.trim();
     var x = document.getElementById("credit1").innerHTML
-
-    if (messageContent <= +x){
+    
    
+    if (messageContent <= +x && messageContent >= oppRaise){
+    	
+    // boolOppRaise true when oppRaise is == 0
+    if (oppRaise == 0){
+    	boolOppRaise = true;
+    	needToRaise = true;
+    }else{ 
+    	boolOppRaise = false;
+    }
+    // When need not to raise again.
+    if(oppRaise == messageContent){
+    	needToRaise = false;
+    }
+   
+    oppRaise = 0;
     if(messageContent && stompClient) {
         var chatMessage = {
             sender: username,
@@ -114,7 +130,11 @@ function raise(event) {
     }    
     }
     else{
-    alert(raiseInput.value +"is bigger than"+ document.getElementById("credit1").innerHTML);
+    	if (oppRaise == 0){
+    		alert(raiseInput.value +"is bigger than"+ document.getElementById("credit1").innerHTML);
+    	}
+    	else alert(oppRaise +"opposit raise is bigger than yours: "+ messageContent);
+         
     }
     event.preventDefault();
 }
@@ -280,12 +300,20 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     		document.getElementById("credit2").innerHTML = document.getElementById("credit2").innerHTML - message.content;
     		oppRaise = message.content;
     		//alert(oppRaise);
+    		if (boolOppRaise == false && needToRaise == false){
+    			document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
+        		document.getElementById("check").disabled = true;
+        		document.getElementById("fold").disabled = false;
+        		document.getElementById("raise").disabled = false;
+        		document.getElementById("credit").disabled = false;
+    		}
+    		else{
     		document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
     		document.getElementById("check").disabled = false;
     		document.getElementById("fold").disabled = false;
     		document.getElementById("raise").disabled = false;
     		document.getElementById("credit").disabled = false;
-    		
+    		}
     	}
     	
     	if (+turn === 2){
