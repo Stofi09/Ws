@@ -16,8 +16,12 @@ var inc = 0;
 var stompClient = null;
 var username = null;
 var oppRaise = 0;
-var boolOppRaise = true;
 var reCall = 0;
+var overRaise = 0;
+var boolfirstRaise = true;
+var boolOverRaise = false;
+var boolCallRaise = false;
+
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -96,43 +100,96 @@ function send(event) {
     }
     event.preventDefault();
 }
+// checks if the values are eq.
+function boolFunc(b, value1, value2) {
+	  if (b){
+		  if(value1 === value2){
+			  return true;
+		  }
+		  return false;
+	  }
+	  else return true;
+	}
+function boolFuncOver(b, value1, value2) {
+	alert("kulso");
+	var result = false;
+	  if (b){
+		  alert("egyel");
+		  alert(value1+" " + value2);
+		  if(+value1 === +value2){
+			  alert("ketovel");
+			  result =  true;
+		  }
+		  
+	  }
+	 return result;
+	}
 
 function raise(event) {
 	
     var messageContent = raiseInput.value.trim();
-    var x = document.getElementById("credit1").innerHTML
-    
-   
-    if (messageContent <= +x && messageContent >= oppRaise){
-    	
-    // boolOppRaise true when oppRaise is == 0
-    //first raise makes boolOppRaise,needToRaise true	
-    if (oppRaise === 0){
-    	boolOppRaise = true;
-    }else if (oppRaise === messageContent){ // When the two raise eq. no need more act.  	
-    	boolOppRaise = false;
+    var x = document.getElementById("credit1").innerHTML;
+	 
+    if (messageContent <= +x && boolFuncOver(boolOverRaise,messageContent,oppRaise)){
+    	alert("rendben lement");
+    	boolOverRaise = false;
+    	boolCallRaise = true;
+    	boolfirstRaise = false;
+	    if(messageContent && stompClient) {
+	        var chatMessage = {
+	            sender: username,
+	            content: 0,
+	            oppRaise: 0,
+	            reCall: 0,
+	            hasFirstRaised: boolfirstRaise,
+	            hasCallRaised: boolCallRaise,
+	            hasOverRaised: boolOverRaise,
+	            type: 'RAISE'
+	        };
+	
+	        stompClient.send("/app/chat.raise", {}, JSON.stringify(chatMessage));
+	        raiseInput.value = '';
+	    }   
     }
-    // When need not to raise again.
-    else if(messageContent >= oppRaise){ // When the first raiser needs to call	
-    	boolOppRaise = false;
-    	raiseInput.value = messageContent - oppRaise;
-    }
-   
-    
-    oppRaise = 0;
-    if(messageContent && stompClient) {
-        var chatMessage = {
-            sender: username,
-            content: raiseInput.value,
-            needToRaise: boolOppRaise,
-            type: 'RAISE'
-        };
+    else if (messageContent <= +x && (boolfirstRaise||boolCallRaise)&& boolFunc(boolCallRaise,messageContent,oppRaise)){
+	    	
+		    if(messageContent && stompClient) {
+		        var chatMessage = {
+		            sender: username,
+		            content: raiseInput.value,
+		            oppRaise: raiseInput.value,
+		            reCall: reCall,
+		            hasFirstRaised: boolfirstRaise,
+		            hasCallRaised: boolCallRaise,
+		            hasOverRaised: boolOverRaise,
+		            type: 'RAISE'
+		        };
+		
+		        stompClient.send("/app/chat.raise", {}, JSON.stringify(chatMessage));
+		        raiseInput.value = '';
+		    }    
+	    }
+    else if (messageContent <= +x && messageContent >= oppRaise){
+        boolOverRaise = true;
+        reCall = messageContent - oppRaise;
+        
+        if(messageContent && stompClient) {
+            var chatMessage = {
+            		sender: username,
+		            content: raiseInput.value,
+		            oppRaise: raiseInput.value,
+		            reCall: reCall,
+		            hasFirstRaised: boolfirstRaise,
+		            hasCallRaised: boolCallRaise,
+		            hasOverRaised: boolOverRaise,
+                type: 'CALL'
+            };
 
-        stompClient.send("/app/chat.raise", {}, JSON.stringify(chatMessage));
-        raiseInput.value = '';
-    }    
-    }
-    else{
+            stompClient.send("/app/chat.raise", {}, JSON.stringify(chatMessage));
+            raiseInput.value = '';
+        }    
+        }
+	 else{
     	if (oppRaise == 0){
     		alert(raiseInput.value +"is bigger than"+ document.getElementById("credit1").innerHTML);
     	}
@@ -297,28 +354,43 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
      		 document.getElementById("fold").disabled = true;
      		 document.getElementById("raise").disabled = true;
      		document.getElementById("credit").disabled = true;
-     	
+     		boolfirstRaise = true;
+     		boolOverRaise = false;
+     		boolCallRaise = false;
+     		oppRaise = 0;
     	}
     	else {
     		//Receiver
     		document.getElementById("credit2").innerHTML = document.getElementById("credit2").innerHTML - message.content;
-    		oppRaise = message.content;
-    		boolOppRaise = message.needToRaise;
     		
-    		if (boolOppRaise == true){
-    			document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
-        		document.getElementById("check").disabled = true;
-        		document.getElementById("fold").disabled = false;
-        		document.getElementById("raise").disabled = false;
-        		document.getElementById("credit").disabled = false;
-    		}
-    		else if (boolOppRaise == false){
-    		document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
-    		document.getElementById("check").disabled = false;
-    		document.getElementById("fold").disabled = false;
-    		document.getElementById("raise").disabled = false;
-    		document.getElementById("credit").disabled = false;
-    		}
+    		oppRaise = message.content;
+    		alert(oppRaise);
+    		boolfirstRaise = message.hasFirstRaised;
+    		boolCallRaise = message.hasCallRaised;
+    		
+    				//First raise -- need to answer for the raise, check button disabled
+		    		if (boolfirstRaise){
+		    			document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
+		        		document.getElementById("check").disabled = true;
+		        		document.getElementById("fold").disabled = false;
+		        		document.getElementById("raise").disabled = false;
+		        		document.getElementById("credit").disabled = false;
+		        		boolfirstRaise = false;
+		        		boolCallRaise = true;
+		    		}
+		    		// ReCall - nothing to do get back the buttons 
+		    		else if(boolCallRaise){
+		    			
+		    			
+		    			document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
+		        		document.getElementById("check").disabled = false;
+		        		document.getElementById("fold").disabled = false;
+		        		document.getElementById("raise").disabled = false;
+		        		document.getElementById("credit").disabled = false;
+		        		boolfirstRaise = true;
+		        		boolCallRaise = false;
+		    		}
+		    		
     	}
     	
     	if (+turn === 2){
@@ -336,6 +408,48 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
     		document.getElementById("fold").disabled = true; 
     		document.getElementById("credit").disabled = true;
     	}
+    	
+    }
+    else if(message.type === 'CALL'){
+    	
+    	
+    	document.getElementById("status").innerHTML = message.type;
+    	// true when the sender and receiver are the same Client
+    	if (message.sender === document.getElementById("playerName1").innerHTML){
+    		 document.getElementById("credit1").innerHTML = document.getElementById("credit1").innerHTML - message.content;
+    		 document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
+    		 document.getElementById("check").disabled = true;
+     		 document.getElementById("fold").disabled = true;
+     		 document.getElementById("raise").disabled = true;
+     		document.getElementById("credit").disabled = true;
+     		boolfirstRaise = true;
+     		boolOverRaise = false;
+     		boolCallRaise = false;
+     		oppRaise = 0;
+    	}
+    	else {
+    		//Receiver
+    		document.getElementById("credit2").innerHTML = document.getElementById("credit2").innerHTML - message.content;
+    		
+    		oppRaise = message.reCall;
+    		alert(oppRaise);
+    		boolOverRaise = message.hasOverRaised;
+    				//First raise -- need to answer for the raise, check button disabled
+		    		if (boolfirstRaise){
+		    			alert("You have to call: " + oppRaise);
+		    			document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
+		        		document.getElementById("check").disabled = true;
+		        		document.getElementById("fold").disabled = false;
+		        		document.getElementById("raise").disabled = false;
+		        		document.getElementById("credit").disabled = false;
+		        		boolfirstRaise = true;
+		        		boolCallRaise = false;
+		    		}
+		    		// ReCall - nothing to do get back the buttons 
+		    		
+		    		
+    	}
+    	
     	
     }else {
         messageElement.classList.add('chat-message');

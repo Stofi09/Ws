@@ -6,7 +6,12 @@ public class ChatMessage {
 	private String sender;
 	private MessageType type;
 	private int playerNo;
-	private boolean needToRaise;
+	private int oppRaise;
+	private int reCall;
+	private int overRaise;
+	private boolean hasFirstRaised;
+	private boolean hasCallRaised;
+	private boolean hasOverRaised;
 	private String card1;
 	private String card2;
 	private String card3;
@@ -27,7 +32,7 @@ public class ChatMessage {
 	}
 
 	public enum MessageType {
-		CHAT, LEAVE, JOIN, CHECK, RAISE, START
+		CHAT, LEAVE, JOIN, CHECK, RAISE, START, CALL
 	}
 
 	public String getContent() {
@@ -134,15 +139,61 @@ public class ChatMessage {
 		this.card9 = card9;
 	}
 
-	public boolean isNeedToRaise() {
-		return needToRaise;
+	public int getOppRaise() {
+		return oppRaise;
 	}
 
-	public void setNeedToRaise(boolean needToRaise) {
-		this.needToRaise = needToRaise;
+	public void setOppRaise(int oppRaise) {
+		this.oppRaise = oppRaise;
 	}
 
-	
+	public int getReCall() {
+		return reCall;
+	}
+
+	public void setReCall(int reCall) {
+		this.reCall = reCall;
+	}
+
+	public int getOverRaise() {
+		return overRaise;
+	}
+
+	public void setOverRaise(int overRaise) {
+		this.overRaise = overRaise;
+	}
+
+	public boolean isHasFirstRaised() {
+		return hasFirstRaised;
+	}
+
+	public void setHasFirstRaised(boolean hasFirstRaised) {
+		this.hasFirstRaised = hasFirstRaised;
+	}
+
+	public boolean isHasCallRaised() {
+		return hasCallRaised;
+	}
+
+	public void setHasCallRaised(boolean hasCallRaised) {
+		this.hasCallRaised = hasCallRaised;
+	}
+
+	public boolean isHasOverRaised() {
+		return hasOverRaised;
+	}
+
+	public void setHasOverRaised(boolean hasOverRaised) {
+		this.hasOverRaised = hasOverRaised;
+	}
+
+//	sender: username,
+//    content: raiseInput.value,
+//    oppRaise: raiseInput.value,,
+//    reCall: reCall,
+//    hasFirstRaised: boolfirstRaise,
+//    hasCallRaised: boolCallRaise,
+//    hasOverRaised: boolOverRaise,
 	
 	
 }

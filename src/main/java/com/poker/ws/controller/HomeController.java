@@ -64,7 +64,17 @@ public class HomeController {
 	@MessageMapping("/chat.raise")
 	@SendTo("/topic/public")
 	public ChatMessage raiseMessage(@Payload ChatMessage chatMessage) {
+		if (chatMessage.getReCall() == 0) {
+			turn = turn - 2;
+		}
 		turn++;
+		chatMessage.setTurn(turn);
+		return chatMessage;
+	}
+	@MessageMapping("/chat.call")
+	@SendTo("/topic/public")
+	public ChatMessage callMessage(@Payload ChatMessage chatMessage) {
+		turn--;
 		chatMessage.setTurn(turn);
 		return chatMessage;
 	}
