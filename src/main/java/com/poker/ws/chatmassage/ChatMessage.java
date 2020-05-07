@@ -6,6 +6,7 @@ public class ChatMessage {
 	private String sender;
 	private MessageType type;
 	private int playerNo;
+	private boolean needToRaise;
 	private String card1;
 	private String card2;
 	private String card3;
@@ -131,6 +132,14 @@ public class ChatMessage {
 
 	public void setCard9(String card9) {
 		this.card9 = card9;
+	}
+
+	public boolean isNeedToRaise() {
+		return needToRaise;
+	}
+
+	public void setNeedToRaise(boolean needToRaise) {
+		this.needToRaise = needToRaise;
 	}
 
 	

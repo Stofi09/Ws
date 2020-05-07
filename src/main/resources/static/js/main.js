@@ -17,7 +17,7 @@ var stompClient = null;
 var username = null;
 var oppRaise = 0;
 var boolOppRaise = true;
-var needToRaise = false;
+var reCall = 0;
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -106,22 +106,25 @@ function raise(event) {
     if (messageContent <= +x && messageContent >= oppRaise){
     	
     // boolOppRaise true when oppRaise is == 0
-    if (oppRaise == 0){
+    //first raise makes boolOppRaise,needToRaise true	
+    if (oppRaise === 0){
     	boolOppRaise = true;
-    	needToRaise = true;
-    }else{ 
+    }else if (oppRaise === messageContent){ // When the two raise eq. no need more act.  	
     	boolOppRaise = false;
     }
     // When need not to raise again.
-    if(oppRaise == messageContent){
-    	needToRaise = false;
+    else if(messageContent >= oppRaise){ // When the first raiser needs to call	
+    	boolOppRaise = false;
+    	raiseInput.value = messageContent - oppRaise;
     }
    
+    
     oppRaise = 0;
     if(messageContent && stompClient) {
         var chatMessage = {
             sender: username,
             content: raiseInput.value,
+            needToRaise: boolOppRaise,
             type: 'RAISE'
         };
 
@@ -294,20 +297,22 @@ if (message.sender === document.getElementById("playerName1").innerHTML){
      		 document.getElementById("fold").disabled = true;
      		 document.getElementById("raise").disabled = true;
      		document.getElementById("credit").disabled = true;
+     	
     	}
     	else {
     		//Receiver
     		document.getElementById("credit2").innerHTML = document.getElementById("credit2").innerHTML - message.content;
     		oppRaise = message.content;
-    		//alert(oppRaise);
-    		if (boolOppRaise == false && needToRaise == false){
+    		boolOppRaise = message.needToRaise;
+    		
+    		if (boolOppRaise == true){
     			document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
         		document.getElementById("check").disabled = true;
         		document.getElementById("fold").disabled = false;
         		document.getElementById("raise").disabled = false;
         		document.getElementById("credit").disabled = false;
     		}
-    		else{
+    		else if (boolOppRaise == false){
     		document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
     		document.getElementById("check").disabled = false;
     		document.getElementById("fold").disabled = false;
