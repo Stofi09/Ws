@@ -69,7 +69,9 @@ public class HomeController {
 	@MessageMapping("/chat.check")
 	@SendTo("/topic/public")
 	public ChatMessage cehckMessage(@Payload ChatMessage chatMessage) {
-		turn++;
+		game.setTurned(chatMessage.getSender());
+		turn = game.turnCounter();
+		System.out.println(turn);
 		chatMessage.setTurn(turn);
 		return chatMessage;
 	}

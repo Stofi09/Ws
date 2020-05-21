@@ -16,14 +16,23 @@ public class Game implements iGame{
 	private static ArrayList<Card>deck1;
 	
 	private int boardCredit;
-	
+	private int turn;
 	public Game() {}
 	
 	// Can I init. later?
 	private HashMap<String, Player> players = new HashMap<>();
 	
 	public void setTurned(String name) {
-		players.get(name).setHasTurned(true);
+		if (name.equals(this.player1.getName())) { 
+			this.player1.setHasTurned(true);}
+		else if (name.equals(this.player2.getName())) {this.player2.setHasTurned(true);
+		}
+		else {
+			System.err.println(this.player1.getName() +"\\"+ this.player2.getName() );
+			System.err.print("There is a problem with names..."+name);
+		}
+		//implement this later...
+		//players.get(name).setHasTurned(true);
 	}
 
 	// Sets player at the start of a game.
@@ -54,16 +63,16 @@ public class Game implements iGame{
 	}
 
 	public int turnCounter() {
-		int result = 0;
+	
 		if (hasTurned()) {
-			result++;
+			turn++;
 			setTurnFalse();
 		}
 		// for new games, 7 might not be good?
-		if (result == 7) {
-			result = 0;
+		if (turn == 7) {
+			turn = 0;
 		}
-		return result;
+		return turn;
 	}
 	private void setTurnFalse() {
 		this.player1.setHasTurned(false);
