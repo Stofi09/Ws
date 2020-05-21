@@ -34,14 +34,14 @@ public class HomeController {
 		Player player2 = new Player(chatMessage.getSender(),500);
 		game.setPlayer(player2);
 		}
-		System.out.println("Players size: "+game.getBothPlayers());
 		return chatMessage;
 	}
 	
 	@MessageMapping("/chat.start")
 	@SendTo("/topic/public")
 	public ChatMessage startMessage(@Payload ChatMessage chatMessage) {
-		turn = 0;
+		
+		turn = game.turnCounter();
 		
 		ArrayList<Card> deck = new ArrayList<>();
 		deck = Card.makeDeck();

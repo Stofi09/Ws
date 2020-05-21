@@ -21,6 +21,10 @@ public class Game implements iGame{
 	
 	// Can I init. later?
 	private HashMap<String, Player> players = new HashMap<>();
+	
+	public void setTurned(String name) {
+		players.get(name).setHasTurned(true);
+	}
 
 	// Sets player at the start of a game.
 	@Override
@@ -49,6 +53,22 @@ public class Game implements iGame{
 		else 	return false;
 	}
 
+	public int turnCounter() {
+		int result = 0;
+		if (hasTurned()) {
+			result++;
+			setTurnFalse();
+		}
+		// for new games, 7 might not be good?
+		if (result == 7) {
+			result = 0;
+		}
+		return result;
+	}
+	private void setTurnFalse() {
+		this.player1.setHasTurned(false);
+		this.player2.setHasTurned(false);
+	}
 	// If true, next turn./ when to set false the booleans?
 	@Override
 	public boolean hasTurned() {
