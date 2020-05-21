@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 
 
 import com.poker.ws.chatmassage.ChatMessage;
-import com.poker.ws.card.cards;
+import com.poker.ws.card.Card;
 
 @Controller
 public class HomeController {
@@ -31,8 +31,8 @@ public class HomeController {
 	public ChatMessage startMessage(@Payload ChatMessage chatMessage) {
 		turn = 0;
 		
-		ArrayList<cards> deck = new ArrayList<>();
-		deck = cards.makeDeck();
+		ArrayList<Card> deck = new ArrayList<>();
+		deck = Card.makeDeck();
 		Collections.shuffle(deck);		
 				
 		
