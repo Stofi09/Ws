@@ -71,6 +71,12 @@ function start(event) {
 	
     var messageContent = messageStart;
 
+	document.getElementById("check").disabled = false;
+	document.getElementById("fold").disabled = false;
+	document.getElementById("raise").disabled = false;
+	document.getElementById("credit").disabled = false;
+	
+    
    
     if(messageContent && stompClient) {
         var chatMessage = {
@@ -201,6 +207,11 @@ function raise(event) {
 
 function check(event) {
 	var messageContent = messaheCheck;
+	
+	document.getElementById("check").disabled = true;
+	document.getElementById("fold").disabled = true;
+	document.getElementById("raise").disabled = true;
+	document.getElementById("credit").disabled = true;
 
     if(messageContent && stompClient) {
         var chatMessage = {
@@ -243,25 +254,17 @@ function onMessageReceived(payload) {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' left!';
     }else if(message.type === 'START'){
-    	var card1 = message.card1;
-    	var card2 = message.card2;
-    	var card3 = message.card3;
-    	var card4 = message.card4;
-    	var card5 = message.card5;
-    	var card6 = message.card6;
-    	var card7 = message.card7;
-    	var card8 = message.card8;
-    	var card9 = message.card9;
+  
     	
-    	document.getElementById('card1').src= card1;
-    	document.getElementById('card2').src= card2;
-    	document.getElementById('card3').src= card3;
-    	document.getElementById('card4').src= card4;
-    	document.getElementById('card5').src= card5;
-    	document.getElementById('card6').src= card6;
-    	document.getElementById('card7').src= card7;
-    	document.getElementById('card8').src= card8;
-    	document.getElementById('card9').src= card9;
+    	document.getElementById('card1').src= message.card1;
+    	document.getElementById('card2').src= message.card2;
+    	document.getElementById('card3').src= message.card3;
+    	document.getElementById('card4').src= message.card4;
+    	document.getElementById('card5').src= message.card5;
+    	document.getElementById('card6').src= message.card6;
+    	document.getElementById('card7').src= message.card7;
+    	document.getElementById('card8').src= message.card8;
+    	document.getElementById('card9').src= message.card9;
     	
     	if (message.sender === document.getElementById("playerName1").innerHTML){
     		document.getElementById("card3").style.visibility = "hidden";
@@ -283,44 +286,26 @@ function onMessageReceived(payload) {
     	document.getElementById("card8").style.visibility = "hidden";
     	document.getElementById("card9").style.visibility = "hidden";
     	
-if (message.sender === document.getElementById("playerName1").innerHTML){
-    		
-    		document.getElementById("check").disabled = false;
-    		document.getElementById("fold").disabled = false;
-    		document.getElementById("raise").disabled = false;
-    		document.getElementById("credit").disabled = false;
-    		
-    		}
-    	else{
-    		
+if (message.sender =! document.getElementById("playerName1").innerHTML){
     		document.getElementById("check").disabled = true;
     		document.getElementById("fold").disabled = true;
     		document.getElementById("raise").disabled = true;
-    		document.getElementById("credit").disabled = true;
-    		
+    		document.getElementById("credit").disabled = true;		
     		}
 			document.getElementById("start").disabled = true;
 		
 			
     }else if(message.type === 'CHECK'){
     	var turn = message.turn;
-    	console.log(turn);
+    	console.log(document.getElementById("playerName1").innerHTML);
     	document.getElementById("status").innerHTML = message.content;
     	if (message.sender === document.getElementById("playerName1").innerHTML){
-    		
-    		document.getElementById("check").disabled = true;
-    		document.getElementById("fold").disabled = true;
-    		document.getElementById("raise").disabled = true;
-    		document.getElementById("credit").disabled = true;
-    		}
-    	else{
-    		
+    	}else {// for some reason I cant put the else part into the if part if sender != playerName1 ?
     		document.getElementById("check").disabled = false;
     		document.getElementById("fold").disabled = false;
     		document.getElementById("raise").disabled = false;
-    		document.getElementById("credit").disabled = false;
-    		
-    		}
+    		document.getElementById("credit").disabled = false;	
+    	}
     	
     	if (+turn === 2){
     		document.getElementById("card5").style.visibility = "visible";
