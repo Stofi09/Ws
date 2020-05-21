@@ -1,5 +1,7 @@
 package com.poker.ws.chatmassage;
 
+
+// Needs to refactor.
 public class ChatMessage {
 
 	private String content;

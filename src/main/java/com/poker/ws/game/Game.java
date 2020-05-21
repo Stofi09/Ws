@@ -17,8 +17,10 @@ public class Game implements iGame{
 	
 	private int boardCredit;
 	
+	public Game() {}
+	
 	// Can I init. later?
-	HashMap<String, Player> players = new HashMap<>();
+	private HashMap<String, Player> players = new HashMap<>();
 
 	// Sets player at the start of a game.
 	@Override
@@ -73,7 +75,10 @@ public class Game implements iGame{
 		
 		
 	}
-
+	
+	public int getPlayersSize() {
+		return players.size();
+	}
 	
 	@Override
 	public void creditToPlayer(Player player, int credit) {
@@ -127,7 +132,9 @@ public class Game implements iGame{
 		return deck1;
 	}
 
-	
+	public String getBothPlayers() {
+		return getPlayer1() +""+ getPlayer2();
+	}
 
 	
 

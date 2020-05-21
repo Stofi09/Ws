@@ -10,19 +10,31 @@ import org.springframework.stereotype.Controller;
 
 
 import com.poker.ws.chatmassage.ChatMessage;
+import com.poker.ws.game.Game;
+import com.poker.ws.game.Player;
 import com.poker.ws.card.Card;
 
 @Controller
 public class HomeController {
 	private static int playerNum = 1;
 	private static int turn;
-	
+	private static Game game;
 	
 	@MessageMapping("/chat.register")
 	@SendTo("/topic/public")
 	public ChatMessage register(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
 		headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
 		chatMessage.setPlayerNo(incNum());
+		// reg. players. // How to init new Players?
+		if (game == null) {
+			game = new Game();
+			Player player = new Player(chatMessage.getSender(),500);
+			game.setPlayer(player);
+		}else {
+		Player player2 = new Player(chatMessage.getSender(),500);
+		game.setPlayer(player2);
+		}
+		System.out.println("Players size: "+game.getBothPlayers());
 		return chatMessage;
 	}
 	
