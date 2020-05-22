@@ -69,7 +69,7 @@ public class HomeController {
 	@MessageMapping("/chat.check")
 	@SendTo("/topic/public")
 	public ChatMessage cehckMessage(@Payload ChatMessage chatMessage) {
-		game.setTurned(chatMessage.getSender());
+		game.setCheckTurned(chatMessage.getSender());
 		turn = game.turnCounter();
 		System.out.println(turn);
 		chatMessage.setTurn(turn);
@@ -78,11 +78,8 @@ public class HomeController {
 	@MessageMapping("/chat.raise")
 	@SendTo("/topic/public")
 	public ChatMessage raiseMessage(@Payload ChatMessage chatMessage) {
-		if (chatMessage.getReCall() == 0) {
-			turn = turn - 2;
-		}
-		turn++;
-		chatMessage.setTurn(turn);
+		game.setRaiseTurned(chatMessage.getSender());
+		turn = game.setRaiseTurn(chatMessage.isHasFirstRaised(), chatMessage.isHasCallRaised(),chatMessage.isHasOverRaised());
 		return chatMessage;
 	}
 	@MessageMapping("/chat.call")

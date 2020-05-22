@@ -117,13 +117,9 @@ function boolFunc(b, value1, value2) {
 	  else return true;
 	}
 function boolFuncOver(b, value1, value2) {
-	alert("kulso");
 	var result = false;
 	  if (b){
-		  alert("egyel");
-		  alert(value1+" " + value2);
 		  if(+value1 === +value2){
-			  alert("ketovel");
 			  result =  true;
 		  }
 		  
@@ -135,7 +131,9 @@ function raise(event) {
 	
     var messageContent = raiseInput.value.trim();
     var x = document.getElementById("credit1").innerHTML;
-	 
+	console.log(boolOverRaise);
+	console.log(boolCallRaise);
+	console.log(boolfirstRaise);
     if (messageContent <= +x && boolFuncOver(boolOverRaise,messageContent,oppRaise)){
     	alert("rendben lement");
     	boolOverRaise = false;
@@ -158,7 +156,9 @@ function raise(event) {
 	    }   
     }
     else if (messageContent <= +x && (boolfirstRaise||boolCallRaise)&& boolFunc(boolCallRaise,messageContent,oppRaise)){
-	    	
+    	console.log(boolOverRaise);
+    	console.log(boolCallRaise);
+    	console.log(boolfirstRaise);
 		    if(messageContent && stompClient) {
 		        var chatMessage = {
 		            sender: username,
@@ -178,7 +178,9 @@ function raise(event) {
     else if (messageContent <= +x && messageContent >= oppRaise){
         boolOverRaise = true;
         reCall = messageContent - oppRaise;
-        
+        console.log(boolOverRaise);
+    	console.log(boolCallRaise);
+    	console.log(boolfirstRaise);
         if(messageContent && stompClient) {
             var chatMessage = {
             		sender: username,
@@ -329,7 +331,7 @@ if (message.sender =! document.getElementById("playerName1").innerHTML){
     	}
     else if(message.type === 'RAISE'){
     	var turn = message.turn;
-    	
+    	console.log("Turn: "+turn);
     	document.getElementById("status").innerHTML = message.type;
     	// true when the sender and receiver are the same Client
     	if (message.sender === document.getElementById("playerName1").innerHTML){

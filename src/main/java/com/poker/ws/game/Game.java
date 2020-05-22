@@ -14,7 +14,8 @@ public class Game implements iGame{
 	private static int numOfPlayerNeeded = 2;
 	
 	private static ArrayList<Card>deck1;
-	
+	private static int firstRaise;
+	private static int secondRaise;
 	private int boardCredit;
 	private int turn;
 	public Game() {}
@@ -22,7 +23,27 @@ public class Game implements iGame{
 	// Can I init. later?
 	private HashMap<String, Player> players = new HashMap<>();
 	
-	public void setTurned(String name) {
+	public void setRaiseTurned(String name) {
+		if (name.equals(this.player1.getName())) {
+			this.player2.setHasTurned(false);
+		}
+		else {
+			this.player1.setHasTurned(false);
+		}
+	}
+	public int setRaiseTurn(boolean bol1,boolean bol2, boolean bol3) {
+		System.out.println(bol1+""+bol2+""+bol3);
+		if (bol2 && !bol1 && !bol3) {
+			turn++;
+		}
+		else if (bol1 && bol3)	{
+			turn++;
+		}
+		System.out.println(turn);
+		return turn;
+	}
+	
+	public void setCheckTurned(String name) {
 		if (name.equals(this.player1.getName())) { 
 			this.player1.setHasTurned(true);}
 		else if (name.equals(this.player2.getName())) {this.player2.setHasTurned(true);
@@ -60,6 +81,11 @@ public class Game implements iGame{
 		int playersNum = players.size();
 		if (playersNum == numOfPlayerNeeded)	return true;
 		else 	return false;
+	}
+	public int turnRaiseCounter() {
+		
+		
+		return turn;
 	}
 
 	public int turnCounter() {
