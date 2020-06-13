@@ -7,24 +7,44 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import com.poker.ws.card.Card;
 import com.poker.ws.chatmassage.ChatMessage;
 import com.poker.ws.game.Game;
 import com.poker.ws.game.Player;
-import com.poker.ws.card.Card;
 
 @Controller
 public class HomeController {
 	private static int playerNum = 1;
 	private static int turn;
 	private static Game game;
+	private static String lobbyName = "No players are waiting";
 	
+	
+	@RequestMapping("/proba")
+	public String proba(Model model) {
+		model.addAttribute("title","asd");
+		return "proba";
+	}
+	
+	@RequestMapping("/")
+	public String index(Model model) {
+		model.addAttribute("status", lobbyName);
+		System.out.println("sikerult");
+		return "index";
+	}
+	//Registering new Player
+	//Checking if there is already a player in game or not.
 	@MessageMapping("/chat.register")
 	@SendTo("/topic/public")
 	public ChatMessage register(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
 		headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
 		chatMessage.setPlayerNo(incNum());
+		if (lobbyName.equals("No players are waiting")) {
+			lobbyName = chatMessage.getSender() + "" + " is waiting.";
+		}
 		// reg. players. // How to init new Players?
 		if (game == null) {
 			game = new Game();

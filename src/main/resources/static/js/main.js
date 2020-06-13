@@ -35,6 +35,7 @@ function connect(event) {
 
     document.getElementById("playerName1").innerHTML = username;
     
+    
     if(username) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
