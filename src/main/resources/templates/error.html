@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+<title>Error Page</title>
+<link rel="stylesheet" href="/css/main.css" />
+</head>
+<body background="18.jpg"
+	style="background-position: center; background-repeat: no-repeat; background-size: cover;">
+	<noscript>
+		<h2>Sorry! Your browser doesn't support Javascript</h2>
+	</noscript>
+
+   <article>
+        <header>
+            <h1 th:text="${error}">This is the problem</h1> 
+        </header>
+    
+ 	    <section >
+            <p th:text="${message}">This is the message</p>
+            <p th:text="${path}">This is the path</p>
+            <p th:text="${status}">This is the status</p>
+            <p th:text="${timestamp}">This is the date</p>
+        </section>
+        
+       
+      
+    </article>
+	
+
+	
+</body>
+</html>
