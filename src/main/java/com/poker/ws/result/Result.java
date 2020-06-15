@@ -52,10 +52,10 @@ public void doReSolve() {
 }
 
 private void reSolver(int result ) {
-	if  (this.res2==0) {
-		  this.res2 = result;
-	}
-	else  this.res1 = result;	 
+	
+	if(this.res1 > result) 	this.res2 = result;
+	else this.res1 = result;
+ 
 }
 
 public int getRes1() {
