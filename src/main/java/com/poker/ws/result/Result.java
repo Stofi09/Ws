@@ -24,6 +24,7 @@ private  Checker check;
 	}
 	
 public void checkBooleans() {
+	falsify();
 	this.check.doCheck();
 	if (this.check.getPairRes1()==1) this.pair = true;
 	if (this.check.getPairRes1()==1&&this.check.getPairRes2()==1) this.twoPair = true;
@@ -49,6 +50,18 @@ public void doReSolve() {
 	if(this.flushSeq) reSolver(9);
 	if (this.royalFlush) reSolver(10);
 	System.out.println("The two results are: "+this.res1 + " " + this.res2);
+}
+
+private void falsify() {
+	this.pair = false;
+	this.twoPair = false;
+	this.threeOfAKind = false;
+	this.fourOfAKind = false;
+	this.color5OfAKind = false;
+	this.Seq = false;
+	this.flushSeq = false;
+	this.royalFlush = false;
+	
 }
 
 private void reSolver(int result ) {
