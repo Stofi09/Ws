@@ -1,5 +1,7 @@
 package com.poker.ws.result;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.poker.ws.card.Card;
 import com.poker.ws.result.checker.Checker;
 
@@ -17,12 +19,14 @@ private boolean royalFlush = false;
 private int res1;
 private int res2;
 
+@Autowired
 private  Checker check;
 
 	public Result (Card card1, Card card2, Card card3, Card card4, Card card5, Card card6,Card card7) {
 		this.check = new Checker(card1,card2,card3,card4,card5,card6,card7);
 	}
-	
+
+//Using the checker to find hands.
 public void checkBooleans() {
 	falsify();
 	this.check.doCheck();
@@ -38,7 +42,7 @@ public void checkBooleans() {
 	doReSolve();
 }
 
-
+//Checking the booleans if any of them are true.
 public void doReSolve() {
 	if(this.pair) reSolver(2);
 	if(this.twoPair) reSolver(3);
@@ -52,6 +56,7 @@ public void doReSolve() {
 	System.out.println("The two results are: "+this.res1 + " " + this.res2);
 }
 
+//Set booleans to false.
 private void falsify() {
 	this.pair = false;
 	this.twoPair = false;
@@ -64,6 +69,7 @@ private void falsify() {
 	
 }
 
+//Set results according to doResolve(); .
 private void reSolver(int result ) {
 	
 	if(this.res1 > result) 	this.res2 = result;
