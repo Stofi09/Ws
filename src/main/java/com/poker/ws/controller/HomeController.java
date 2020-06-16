@@ -2,6 +2,7 @@ package com.poker.ws.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -14,14 +15,20 @@ import com.poker.ws.card.Card;
 import com.poker.ws.chatmassage.ChatMessage;
 import com.poker.ws.game.Game;
 import com.poker.ws.game.Player;
+import com.poker.ws.result.Result;
 
 @Controller
 public class HomeController {
 	private static int playerNum = 1;
 	private static int turn;
-	private static Game game;
 	private static String lobbyName = "No players are waiting";
 	
+	@Autowired
+	private Result res1;
+	@Autowired
+	private Result res2;
+	@Autowired
+	private static Game game;
 	
 	@RequestMapping("/proba")
 	public String proba(Model model) {
@@ -66,7 +73,20 @@ public class HomeController {
 		ArrayList<Card> deck = new ArrayList<>();
 		deck = Card.makeDeck();
 		Collections.shuffle(deck);		
-				
+		
+		this.res1.setResult(deck.get(0),deck.get(1),deck.get(4),deck.get(5), deck.get(6), deck.get(7), deck.get(8));
+		this.res1.checkBooleans();
+		System.out.println(res1.toString());
+		System.out.println(deck.get(0)+" "+deck.get(1)+" "+deck.get(4)+" "+deck.get(5)+" "+ deck.get(6)+" "+ deck.get(7)+" "+ deck.get(8));
+		chatMessage.setRk11(this.res1.getRes1());
+		chatMessage.setRk22(this.res1.getRes2());
+
+		this.res2.setResult(deck.get(2),deck.get(3),deck.get(4),deck.get(5), deck.get(6), deck.get(7), deck.get(8));		
+		this.res2.checkBooleans();
+		System.out.println(res2.toString());
+		System.out.println(deck.get(2)+" "+deck.get(3)+" "+deck.get(4)+" "+deck.get(5)+" "+ deck.get(6)+" "+ deck.get(7)+" "+ deck.get(8));
+		chatMessage.setRk33(this.res2.getRes1());
+		chatMessage.setRk44(this.res2.getRes2());
 		
 		chatMessage.setCard1(deck.get(0).getImg());
 		chatMessage.setCard2(deck.get(1).getImg());

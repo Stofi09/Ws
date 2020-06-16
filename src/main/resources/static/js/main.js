@@ -257,7 +257,10 @@ function onMessageReceived(payload) {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' left!';
     }else if(message.type === 'START'){
-  
+    	console.log(message.rk11);
+    	console.log(message.rk22);
+    	console.log(message.rk33);
+    	console.log(message.rk44);
     	
     	document.getElementById('card1').src= message.card1;
     	document.getElementById('card2').src= message.card2;

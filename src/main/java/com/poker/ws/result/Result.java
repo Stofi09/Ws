@@ -1,10 +1,12 @@
 package com.poker.ws.result;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.poker.ws.card.Card;
 import com.poker.ws.result.checker.Checker;
 
+@Component
 public class Result {
 
 private boolean pair = false;
@@ -15,15 +17,18 @@ private boolean color5OfAKind = false;
 private boolean Seq = false;
 private boolean flushSeq = false;
 private boolean royalFlush = false;
-
+private static int ch = 0;
 private int res1;
 private int res2;
 
 @Autowired
 private  Checker check;
 
-	public Result (Card card1, Card card2, Card card3, Card card4, Card card5, Card card6,Card card7) {
+	public Result() {}
+	public void setResult (Card card1, Card card2, Card card3, Card card4, Card card5, Card card6,Card card7) {
 		this.check = new Checker(card1,card2,card3,card4,card5,card6,card7);
+		ch++;
+		System.out.println("ch = "+ch+""+card1+""+card2+""+card3+""+card4+""+card5+""+card6+""+card7);
 	}
 
 //Using the checker to find hands.
@@ -31,6 +36,7 @@ public void checkBooleans() {
 	falsify();
 	this.check.doCheck();
 	if (this.check.getPairRes1()==1) this.pair = true;
+	if (this.check.getPairRes2()==1) this.pair = true;
 	if (this.check.getPairRes1()==1&&this.check.getPairRes2()==1) this.twoPair = true;
 	if(this.check.getPairRes1()==2)this.threeOfAKind = true;
 	if(this.check.getPairRes2()==2)this.threeOfAKind = true;
@@ -66,6 +72,8 @@ private void falsify() {
 	this.Seq = false;
 	this.flushSeq = false;
 	this.royalFlush = false;
+	this.res1 = 0;
+	this.res2 = 0;
 	
 }
 

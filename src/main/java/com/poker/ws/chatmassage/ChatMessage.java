@@ -1,5 +1,8 @@
 package com.poker.ws.chatmassage;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.poker.ws.result.Result;
 
 // Needs to refactor.
 public class ChatMessage {
@@ -24,6 +27,88 @@ public class ChatMessage {
 	private String card8;
 	private String card9;
 	private int turn;
+	private int rk11;
+	private int rk22;
+	private int rk33;
+	private int rk44;
+	
+//	@Autowired
+//	private ResultKeeper rk1;
+//
+//	@Autowired
+//	private ResultKeeper rk2;
+//	
+//	public void setRK(Result res1, Result res2) {
+//		//Erase previous results.
+////		this.rk1.eraser();
+////		this.rk2.eraser();
+//		//Set results.
+//		this.rk1.getRes(res1.getRes1(),res1.getRes2());
+//		this.rk11 = rk1.getRes1();
+//		this.rk22 = rk1.getRes2();
+//		this.rk2.getRes(res2.getRes1(),res2.getRes2());
+//		this.rk33= rk2.getRes1();
+//		this.rk44 =rk2.getRes2();
+//	}
+
+	
+	
+
+	public int getRk11() {
+		return rk11;
+	}
+
+
+
+
+	public void setRk11(int rk11) {
+		this.rk11 = rk11;
+	}
+
+
+
+
+	public void setRk22(int rk22) {
+		this.rk22 = rk22;
+	}
+
+
+
+
+	public void setRk33(int rk33) {
+		this.rk33 = rk33;
+	}
+
+
+
+
+	public void setRk44(int rk44) {
+		this.rk44 = rk44;
+	}
+
+
+
+
+	public int getRk22() {
+		return rk22;
+	}
+
+
+
+
+	public int getRk33() {
+		return rk33;
+	}
+
+
+
+
+	public int getRk44() {
+		return rk44;
+	}
+
+
+
 
 	public int getTurn() {
 		return turn;
@@ -189,13 +274,9 @@ public class ChatMessage {
 		this.hasOverRaised = hasOverRaised;
 	}
 
-//	sender: username,
-//    content: raiseInput.value,
-//    oppRaise: raiseInput.value,,
-//    reCall: reCall,
-//    hasFirstRaised: boolfirstRaise,
-//    hasCallRaised: boolCallRaise,
-//    hasOverRaised: boolOverRaise,
+
+
+
 	
 	
 }

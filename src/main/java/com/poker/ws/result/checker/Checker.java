@@ -1,7 +1,10 @@
 package com.poker.ws.result.checker;
 
+import org.springframework.stereotype.Component;
+
 import com.poker.ws.card.Card;
 
+@Component
 public class Checker {
 
 	//Players cards ranks to compare them in the Result
@@ -28,6 +31,7 @@ public class Checker {
 	private int pairColorRes2;
 	private int sequence;
 	
+	public Checker() {}
 	public Checker(Card card1, Card card2, Card card3, Card card4, Card card5, Card card6, Card card7) {
 		this.Card1 = card1;
 		this.Card2 = card2;

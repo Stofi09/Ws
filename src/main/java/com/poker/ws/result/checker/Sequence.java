@@ -37,7 +37,7 @@ public class Sequence {
 	       Collections.sort(board);
 	       Collections.reverse(board);
 	       for (Card card : board) {
-	    	   System.out.println(card.getRank());
+	    	   System.out.println("///"+card.getRank());
 	       }
 	      
 	       if (length >=5) {
