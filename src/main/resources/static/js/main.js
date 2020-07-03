@@ -21,6 +21,7 @@ var overRaise = 0;
 var boolfirstRaise = true;
 var boolOverRaise = false;
 var boolCallRaise = false;
+var boolFirstPlayer = false;
 
 
 var colors = [
@@ -132,11 +133,12 @@ function raise(event) {
 	
     var messageContent = raiseInput.value.trim();
     var x = document.getElementById("credit1").innerHTML;
-	console.log(boolOverRaise);
-	console.log(boolCallRaise);
-	console.log(boolfirstRaise);
+	console.log("boolOverRaise: " + "" +boolOverRaise);
+	console.log("boolCallRaise: " + "" +boolCallRaise);
+	console.log("boolFirstRaise: " + "" +boolfirstRaise);
+	//Final raise to call opps over raise.
     if (messageContent <= +x && boolFuncOver(boolOverRaise,messageContent,oppRaise)){
-    	alert("rendben lement");
+    	console.log("raise to match prevoius over raise");
     	boolOverRaise = false;
     	boolCallRaise = true;
     	boolfirstRaise = false;
@@ -149,17 +151,19 @@ function raise(event) {
 	            hasFirstRaised: boolfirstRaise,
 	            hasCallRaised: boolCallRaise,
 	            hasOverRaised: boolOverRaise,
-	            type: 'RAISE'
+	            type: 'CALLRAISE'
 	        };
 	
-	        stompClient.send("/app/chat.raise", {}, JSON.stringify(chatMessage));
+	        stompClient.send("/app/chat.callraise", {}, JSON.stringify(chatMessage));
 	        raiseInput.value = '';
 	    }   
     }
+    // First raise 
     else if (messageContent <= +x && (boolfirstRaise||boolCallRaise)&& boolFunc(boolCallRaise,messageContent,oppRaise)){
-    	console.log(boolOverRaise);
-    	console.log(boolCallRaise);
-    	console.log(boolfirstRaise);
+    	console.log("first raise or equal call");
+    	console.log("boolOverRaise: " + "" +boolOverRaise);
+    	console.log("boolCallRaise: " + "" +boolCallRaise);
+    	console.log("boolFirstRaise: " + "" +boolfirstRaise);
 		    if(messageContent && stompClient) {
 		        var chatMessage = {
 		            sender: username,
@@ -176,12 +180,14 @@ function raise(event) {
 		        raiseInput.value = '';
 		    }    
 	    }
+    // Over raise
     else if (messageContent <= +x && messageContent >= oppRaise){
+    	console.log("Over raise");
         boolOverRaise = true;
         reCall = messageContent - oppRaise;
-        console.log(boolOverRaise);
-    	console.log(boolCallRaise);
-    	console.log(boolfirstRaise);
+        console.log("boolOverRaise: " + "" +boolOverRaise);
+    	console.log("boolCallRaise: " + "" +boolCallRaise);
+    	console.log("boolFirstRaise: " + "" +boolfirstRaise);
         if(messageContent && stompClient) {
             var chatMessage = {
             		sender: username,
@@ -243,7 +249,8 @@ function onMessageReceived(payload) {
     		document.getElementById("start").disabled = true;
     		}
     	else{
-    		
+    		boolFirstPlayer = true;
+    		console.log("firstPlayer: " + "" + boolFirstPlayer)
     		document.getElementById("start").disabled = false;    		
     		}
     	document.getElementById("check").disabled = true;
@@ -339,6 +346,7 @@ if (message.sender =! document.getElementById("playerName1").innerHTML){
     	document.getElementById("status").innerHTML = message.type;
     	// true when the sender and receiver are the same Client
     	if (message.sender === document.getElementById("playerName1").innerHTML){
+    		console.log("Inside raise if 1 ");
     		 document.getElementById("credit1").innerHTML = document.getElementById("credit1").innerHTML - message.content;
     		 document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
     		 document.getElementById("check").disabled = true;
@@ -351,6 +359,7 @@ if (message.sender =! document.getElementById("playerName1").innerHTML){
      		oppRaise = 0;
     	}
     	else {
+    		console.log("Inside raise else 2");
     		//Receiver
     		document.getElementById("credit2").innerHTML = document.getElementById("credit2").innerHTML - message.content;
     		
@@ -361,6 +370,7 @@ if (message.sender =! document.getElementById("playerName1").innerHTML){
     		
     				//First raise -- need to answer for the raise, check button disabled
 		    		if (boolfirstRaise){
+		    			console.log("Inside raise else if 3 ");
 		    			document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
 		        		document.getElementById("check").disabled = true;
 		        		document.getElementById("fold").disabled = false;
@@ -371,7 +381,7 @@ if (message.sender =! document.getElementById("playerName1").innerHTML){
 		    		}
 		    		// ReCall - nothing to do get back the buttons 
 		    		else if(boolCallRaise){
-		    			
+		    			console.log("Inside raise else else if 4 ");
 		    			
 		    			document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
 		        		document.getElementById("check").disabled = false;
@@ -407,6 +417,7 @@ if (message.sender =! document.getElementById("playerName1").innerHTML){
     	document.getElementById("status").innerHTML = message.type;
     	// true when the sender and receiver are the same Client
     	if (message.sender === document.getElementById("playerName1").innerHTML){
+    		console.log("Inside call if  1");
     		 document.getElementById("credit1").innerHTML = document.getElementById("credit1").innerHTML - message.content;
     		 document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
     		 document.getElementById("check").disabled = true;
@@ -419,6 +430,7 @@ if (message.sender =! document.getElementById("playerName1").innerHTML){
      		oppRaise = 0;
     	}
     	else {
+    		console.log("Inside call else 2 ");
     		//Receiver
     		document.getElementById("credit2").innerHTML = document.getElementById("credit2").innerHTML - message.content;
     		
@@ -427,6 +439,7 @@ if (message.sender =! document.getElementById("playerName1").innerHTML){
     		boolOverRaise = message.hasOverRaised;
     				//First raise -- need to answer for the raise, check button disabled
 		    		if (boolfirstRaise){
+		    			console.log("Inside call else  if 3 ");
 		    			alert("You have to call: " + oppRaise);
 		    			document.getElementById("boardCredit").innerHTML = +document.getElementById("boardCredit").innerHTML + +message.content;
 		        		document.getElementById("check").disabled = true;
@@ -441,6 +454,30 @@ if (message.sender =! document.getElementById("playerName1").innerHTML){
 		    		
     	}
     	
+    	
+    }
+    else if(message.type === 'CALLRAISE'){
+    	if (boolFirstPlayer){
+    		console.log("Inside firstPlayerTrue ");
+    		 
+    		 document.getElementById("check").disabled = false;
+     		 document.getElementById("fold").disabled = false;
+     		 document.getElementById("raise").disabled = false;
+     		document.getElementById("credit").disabled = false;
+     		boolfirstRaise = true;
+     		boolOverRaise = false;
+     		boolCallRaise = false;
+     		oppRaise = 0;
+    	}else{
+    		console.log("inside CAllRAISE else");
+    		document.getElementById("check").disabled = true;
+    		 document.getElementById("fold").disabled = false;
+    		 document.getElementById("raise").disabled = true;
+    		document.getElementById("credit").disabled = false;
+    		boolfirstRaise = true;
+    		boolOverRaise = false;
+    		boolCallRaise = false;
+    	}
     	
     }else {
         messageElement.classList.add('chat-message');

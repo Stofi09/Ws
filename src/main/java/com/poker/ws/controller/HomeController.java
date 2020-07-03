@@ -47,6 +47,7 @@ public class HomeController {
 	@MessageMapping("/chat.register")
 	@SendTo("/topic/public")
 	public ChatMessage register(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+		
 		headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
 		chatMessage.setPlayerNo(incNum());
 		if (lobbyName.equals("No players are waiting")) {
@@ -125,6 +126,14 @@ public class HomeController {
 	@MessageMapping("/chat.call")
 	@SendTo("/topic/public")
 	public ChatMessage callMessage(@Payload ChatMessage chatMessage) {
+		turn--;
+		chatMessage.setTurn(turn);
+		return chatMessage;
+	}
+	
+	@MessageMapping("/chat.callraise")
+	@SendTo("/topic/public")
+	public ChatMessage callraiseMessage(@Payload ChatMessage chatMessage) {
 		turn--;
 		chatMessage.setTurn(turn);
 		return chatMessage;

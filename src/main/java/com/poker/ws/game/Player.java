@@ -1,7 +1,10 @@
 package com.poker.ws.game;
 
+import org.springframework.stereotype.Component;
+
 import com.poker.ws.card.Card;
 
+@Component
 public class Player {
 	
 	private int credit;

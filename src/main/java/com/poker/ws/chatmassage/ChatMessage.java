@@ -119,7 +119,7 @@ public class ChatMessage {
 	}
 
 	public enum MessageType {
-		CHAT, LEAVE, JOIN, CHECK, RAISE, START, CALL
+		CHAT, LEAVE, JOIN, CHECK, RAISE, START, CALL, CALLRAISE
 	}
 
 	public String getContent() {

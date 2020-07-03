@@ -3,13 +3,18 @@ package com.poker.ws.game;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.poker.ws.card.Card;
 
 
-
+@Component
 public class Game implements iGame{
 	
+	@Autowired
 	private Player player1;
+	@Autowired
 	private Player player2;
 	private static int numOfPlayerNeeded = 2;
 	
