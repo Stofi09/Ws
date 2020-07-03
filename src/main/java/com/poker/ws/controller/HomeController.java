@@ -68,7 +68,7 @@ public class HomeController {
 	@MessageMapping("/chat.start")
 	@SendTo("/topic/public")
 	public ChatMessage startMessage(@Payload ChatMessage chatMessage) {
-		
+		game.nullTurn();
 		turn = game.turnCounter();
 		
 		ArrayList<Card> deck = new ArrayList<>();

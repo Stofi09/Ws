@@ -1,5 +1,6 @@
 package com.poker.ws.game;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.poker.ws.card.Card;
@@ -13,6 +14,8 @@ public class Player {
 	private Card card2;
 	
 	private String name;
+	@Autowired
+	private TurnCounter counter;
 	
 	private boolean hasTurned;
 	
@@ -21,7 +24,12 @@ public class Player {
 		this.name = name;
 		this.credit = credit;
 	}
-	
+	public void setCounter(boolean bol1,boolean bol2,boolean bol3) {
+		this.counter.setCont(bol1, bol2, bol3);
+	}
+	private boolean checkTurn() {
+		return this.counter.isNewTurn();
+	}
 	public String getName() {
 		return name;
 	}

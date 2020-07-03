@@ -196,6 +196,8 @@ public class Game implements iGame{
 		return getPlayer1() +""+ getPlayer2();
 	}
 
-	
+	public void nullTurn() {
+		this.turn = 0;
+	}
 
 }

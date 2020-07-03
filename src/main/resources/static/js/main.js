@@ -217,11 +217,7 @@ function raise(event) {
 function check(event) {
 	var messageContent = messaheCheck;
 	
-	document.getElementById("check").disabled = true;
-	document.getElementById("fold").disabled = true;
-	document.getElementById("raise").disabled = true;
-	document.getElementById("credit").disabled = true;
-
+	
     if(messageContent && stompClient) {
         var chatMessage = {
             sender: username,
@@ -236,12 +232,34 @@ function check(event) {
 }
 
 
+function turnCounter(turn){
+	if (+turn === 1){
+		document.getElementById("card5").style.visibility = "visible";
+    	document.getElementById("card6").style.visibility = "visible";
+    	document.getElementById("card7").style.visibility = "visible";
+	}else if(+turn ===2){
+		document.getElementById("card8").style.visibility = "visible";
+	}else if(+turn ===3){
+		document.getElementById("card9").style.visibility = "visible";
+	}
+	else if(+turn ===4){
+		document.getElementById("start").disabled = false; 
+		document.getElementById("raise").disabled = true; 
+		document.getElementById("check").disabled = true; 
+		document.getElementById("fold").disabled = true; 
+		document.getElementById("credit").disabled = true;
+	}
+	
+}
+
+
 // when turn 8 reset the game, fold will set turn to 8.
 function onMessageReceived(payload) {
 	
     var message = JSON.parse(payload.body);
     var num = message.playerNo;
-    
+    var turn = message.turn;
+    console.log("Turn: "+turn);
     var messageElement = document.createElement('li');
 
     if(message.type === 'JOIN') {
@@ -268,6 +286,7 @@ function onMessageReceived(payload) {
     	console.log(message.rk22);
     	console.log(message.rk33);
     	console.log(message.rk44);
+    	console.log(message.sender);
     	
     	document.getElementById('card1').src= message.card1;
     	document.getElementById('card2').src= message.card2;
@@ -284,12 +303,22 @@ function onMessageReceived(payload) {
         	document.getElementById("card4").style.visibility = "hidden";
         	document.getElementById("card1").style.visibility = "visible";
         	document.getElementById("card2").style.visibility = "visible";
+        	document.getElementById("check").disabled = false;
+    		document.getElementById("fold").disabled = false;
+    		document.getElementById("raise").disabled = false;
+    		document.getElementById("credit").disabled = false;	
+    		document.getElementById("start").disabled = true;
     	}
     	else{
     		document.getElementById("card1").style.visibility = "hidden";
         	document.getElementById("card2").style.visibility = "hidden";
         	document.getElementById("card3").style.visibility = "visible";
         	document.getElementById("card4").style.visibility = "visible";
+        	document.getElementById("check").disabled = true;
+    		document.getElementById("fold").disabled = true;
+    		document.getElementById("raise").disabled = true;
+    		document.getElementById("credit").disabled = true;
+    		document.getElementById("start").disabled = true;
     	}
     	
     	
@@ -299,46 +328,29 @@ function onMessageReceived(payload) {
     	document.getElementById("card8").style.visibility = "hidden";
     	document.getElementById("card9").style.visibility = "hidden";
     	
-if (message.sender =! document.getElementById("playerName1").innerHTML){
-    		document.getElementById("check").disabled = true;
-    		document.getElementById("fold").disabled = true;
-    		document.getElementById("raise").disabled = true;
-    		document.getElementById("credit").disabled = true;		
-    		}
-			document.getElementById("start").disabled = true;
+
 		
 			
     }else if(message.type === 'CHECK'){
     	var turn = message.turn;
     	console.log(document.getElementById("playerName1").innerHTML);
+    	console.log(message.sender);
     	document.getElementById("status").innerHTML = message.content;
     	if (message.sender === document.getElementById("playerName1").innerHTML){
-    	}else {// for some reason I cant put the else part into the if part if sender != playerName1 ?
+    		console.log("player1 if");
+    		document.getElementById("check").disabled = true;
+    		document.getElementById("fold").disabled = true;
+    		document.getElementById("raise").disabled = true;
+    		document.getElementById("credit").disabled = true;
+
+    	}else {
+    		console.log("player1 else");
     		document.getElementById("check").disabled = false;
     		document.getElementById("fold").disabled = false;
     		document.getElementById("raise").disabled = false;
     		document.getElementById("credit").disabled = false;	
-    	}
-    	
-    	if (+turn === 2){
-    		document.getElementById("card5").style.visibility = "visible";
-        	document.getElementById("card6").style.visibility = "visible";
-        	document.getElementById("card7").style.visibility = "visible";
-    	}else if(+turn ===4){
-    		document.getElementById("card8").style.visibility = "visible";
-    	}else if(+turn ===6){
-    		document.getElementById("card9").style.visibility = "visible";
-    	}
-    	else if(+turn ===8){
-    		document.getElementById("start").disabled = false; 
-    		document.getElementById("raise").disabled = true; 
-    		document.getElementById("check").disabled = true; 
-    		document.getElementById("fold").disabled = true; 
-    		document.getElementById("credit").disabled = true;
-    	}
-    	
-    	
-    	
+    	}    	
+    	turnCounter(turn);
     	}
     else if(message.type === 'RAISE'){
     	var turn = message.turn;
@@ -394,21 +406,7 @@ if (message.sender =! document.getElementById("playerName1").innerHTML){
 		    		
     	}
     	
-    	if (+turn === 2){
-    		document.getElementById("card5").style.visibility = "visible";
-        	document.getElementById("card6").style.visibility = "visible";
-        	document.getElementById("card7").style.visibility = "visible";
-    	}else if(+turn ===4){
-    		document.getElementById("card8").style.visibility = "visible";
-    	}else if(+turn ===6){
-    		document.getElementById("card9").style.visibility = "visible";
-    	}else if(+turn ===8){
-    		document.getElementById("start").disabled = false; 
-    		document.getElementById("raise").disabled = true; 
-    		document.getElementById("check").disabled = true; 
-    		document.getElementById("fold").disabled = true; 
-    		document.getElementById("credit").disabled = true;
-    	}
+    	turnCounter(turn);
     	
     }
     else if(message.type === 'CALL'){
